@@ -24,15 +24,15 @@ public class TransactionService {
         if (senderAccount.getBalance() < amount) {
             throw new InsufficientFundsException("Yetersiz Bakiye");
         }
-
-        senderAccount.setBalance((senderAccount.getBalance() - amount));
-        receiverAccount.setBalance((receiverAccount.getBalance() + amount));
-
-        accountService.updateAccountBalance(senderAccount, senderAccount.getBalance());
-        accountService.updateAccountBalance(receiverAccount, receiverAccount.getBalance());
+        senderAccount.setBalance(senderAccount.getBalance() - amount);
+        receiverAccount.setBalance(receiverAccount.getBalance() + amount);
 
         Transaction transaction = new Transaction(senderAccount, receiverAccount, amount, LocalDateTime.now());
         return transactionRepository.save(transaction);
     }
+    public Transaction getTransactionById(Long transactionId) {
+        return transactionRepository.findById(transactionId).orElse(null);
+    }
+
 
 }

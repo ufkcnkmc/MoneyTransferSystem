@@ -8,10 +8,7 @@ import com.MoneyTransferSystem.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -23,6 +20,14 @@ public class TransactionController {
     public ResponseEntity<Transaction> transferMoney(@RequestBody TransactionRequest request) throws InsufficientFundsException {
         Transaction transaction = transactionService.transferMoney(request.getSenderAccountId(), request.getReceiverAccountId(), request.getAmount());
         return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
+    }
+    @GetMapping("/{transactionId}")
+    public ResponseEntity<Transaction> getTransactionByTransactionId(@PathVariable Long transactionId) {
+        Transaction transaction = transactionService.getTransactionById(transactionId);
+        if (transaction == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(transaction);
     }
 
 }

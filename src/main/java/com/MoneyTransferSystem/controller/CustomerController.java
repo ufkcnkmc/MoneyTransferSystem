@@ -31,7 +31,7 @@ public class CustomerController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/create/customer")
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         Customer createdCustomer = customerService.createCustomer(customer);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCustomer);
